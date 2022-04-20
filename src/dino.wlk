@@ -5,19 +5,27 @@ const velocidad = 250
 object juego{
 
 	method configurar(){
+		game.boardGround("paisaje.jpg")
 		game.width(12)
+		game.title("Dino Game")
 		game.addVisual(suelo)
 		game.addVisual(cactus)
+		game.addVisual(cactus2)
+		game.addVisual(cactus3)
 		game.addVisual(dino)
 		game.addVisual(reloj)
 		keyboard.space().onPressDo{ self.jugar()}
+		
 		game.onCollideDo(dino,{ obstaculo => self.terminar()})
+		
 	}
 	
 	method iniciar(){
 		dino.iniciar()
 		reloj.iniciar()
 		cactus.iniciar()
+		cactus2.iniciar()
+		cactus3.iniciar()
 	}
 	
 	method jugar(){
@@ -31,6 +39,9 @@ object juego{
 	
 	method terminar(){
 		game.removeTickEvent("moverCactus")
+		////
+		game.removeTickEvent("moverCactus2")
+		game.removeTickEvent("moverCactus3")
 		game.removeTickEvent("tiempo")
 		game.addVisual(gameOver)
 		dino.detener()
@@ -72,6 +83,8 @@ object cactus {
 	method iniciar(){
 		position = posicionInicial
 		game.onTick(velocidad,"moverCactus",{self.mover()})
+		
+			
 	}
 	
 	method mover(){
@@ -79,8 +92,60 @@ object cactus {
 		if (position.x() == -1)
 			position = posicionInicial
 	}
+		
 
 }
+
+
+object cactus2 {
+	 
+	const posicionInicial2 = game.at(game.width()-1,2)
+	var position = posicionInicial2
+
+	method image() = "cactus.png"
+	method position() = position
+	
+	method iniciar(){
+		position = posicionInicial2
+		game.onTick(velocidad * 2,"moverCactus2",{self.mover()})
+		game.schedule(300, { game.say(self, "¡Voy a matarte, bastardo!") })
+		
+			
+	}
+	
+	method mover(){
+		position = position.left(1)
+		if (position.x() == -1)
+			position = posicionInicial2
+	}
+		
+
+}
+
+object cactus3 {
+	 
+	const posicionInicial3 = game.at(game.width()-1,2)
+	var position = posicionInicial3
+
+	method image() = "cactus.png"
+	method position() = position
+	
+	method iniciar(){
+		position = posicionInicial3
+		game.onTick(velocidad * 6,"moverCactus3",{self.mover()})
+		
+			
+	}
+	
+	method mover(){
+		position = position.left(1)
+		if (position.x() == -1)
+			position = posicionInicial3
+	}
+		
+
+}
+
 
 object suelo{
 	
